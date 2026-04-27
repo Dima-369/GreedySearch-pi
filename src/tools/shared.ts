@@ -117,7 +117,8 @@ export function makeProgressTracker(
 	const engineStr = engines.join(",");
 	onUpdate?.({
 		content: [
-			{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${engines.map((e) => "⏳ " + e).join(" · ")}` },
+			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}` },
+			{ type: "text", text: engines.map((e) => "⏳ " + e).join(" · ") },
 			{ type: "text", text: `${engineStr} · ${depth}` },
 		],
 		details: { _progress: true },
@@ -135,7 +136,8 @@ export function makeProgressTracker(
 
 		onUpdate?.({
 			content: [
-				{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${parts.join(" · ")}` },
+				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}` },
+				{ type: "text", text: parts.join(" · ") },
 				{ type: "text", text: `${engineStr} · ${depth}` },
 			],
 			details: { _progress: true },
