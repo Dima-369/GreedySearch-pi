@@ -112,6 +112,15 @@ export function makeProgressTracker(
 ) {
 	const completed = new Set<string>();
 
+	// Emit initial progress update
+	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
+	onUpdate?.({
+		content: [
+			{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${engines.map((e) => "⏳ " + e).join(" · ")}` },
+		],
+		details: { _progress: true },
+	} satisfies ProgressUpdate);
+
 	return (eng: string, _status: "done" | "error") => {
 		completed.add(eng);
 		const parts: string[] = [];
@@ -122,7 +131,6 @@ export function makeProgressTracker(
 		if (depth !== "fast" && completed.size >= 3)
 			parts.push("🔄 synthesizing");
 
-		const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
 		onUpdate?.({
 			content: [
 				{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${parts.join(" · ")}` },
