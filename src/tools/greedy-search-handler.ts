@@ -20,7 +20,7 @@ export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
 		parameters: Type.Object({
 			query: Type.String({ description: "The search query" }),
 			engine: Type.Union(
-				[Type.Literal("all"), Type.Literal("perplexity"), Type.Literal("bing"), Type.Literal("google"), Type.Literal("gemini"), Type.Literal("gem")],
+				[Type.Literal("all"), Type.Literal("perplexity"), Type.Literal("bing"), Type.Literal("google")],
 				{ description: 'Engine to use. "all" fans out to Perplexity, Bing, and Google in parallel (default).', default: "all" },
 			),
 			depth: Type.Union(
