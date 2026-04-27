@@ -1,3 +1,10 @@
+# Fork changes
+
+- change `depth` to be `fast` by default for faster responses
+- do not allow to use Gemini provider, the 3 ones (Perplexity, Bing, Google) are enough for now
+
+# Original README
+
 # GreedySearch for Pi
 
 Multi-engine AI web search for Pi via browser automation.
