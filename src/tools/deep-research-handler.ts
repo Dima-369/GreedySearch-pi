@@ -23,7 +23,7 @@ export function registerDeepResearchTool(pi: ExtensionAPI, baseDir: string) {
 
 			if (!cdpAvailable(baseDir)) return cdpMissingResult();
 
-			const onProgress = makeProgressTracker(ALL_ENGINES, onUpdate, "Researching", "standard");
+			const onProgress = makeProgressTracker(ALL_ENGINES, onUpdate, "Researching", "standard", query);
 
 			try {
 				const data = await runSearch("all", query, ["--deep"], `${baseDir}/bin/search.mjs`, signal, onProgress);

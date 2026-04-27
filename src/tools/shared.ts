@@ -108,6 +108,7 @@ export function makeProgressTracker(
 	onUpdate: ((update: ProgressUpdate) => void) | undefined,
 	suffix: "Searching" | "Researching",
 	depth: string,
+	query?: string,
 ) {
 	const completed = new Set<string>();
 
@@ -121,9 +122,10 @@ export function makeProgressTracker(
 		if (depth !== "fast" && completed.size >= 3)
 			parts.push("🔄 synthesizing");
 
+		const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
 		onUpdate?.({
 			content: [
-				{ type: "text", text: `**${suffix}...** ${parts.join(" · ")}` },
+				{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${parts.join(" · ")}` },
 			],
 			details: { _progress: true },
 		} satisfies ProgressUpdate);

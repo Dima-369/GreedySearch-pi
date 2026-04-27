@@ -43,7 +43,7 @@ export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
 			else if (depth === "standard" && engine === "all") flags.push("--synthesize");
 
 			const onProgress = engine === "all"
-				? makeProgressTracker(ALL_ENGINES, onUpdate, "Searching", depth)
+				? makeProgressTracker(ALL_ENGINES, onUpdate, "Searching", depth, query)
 				: undefined;
 
 			try {
