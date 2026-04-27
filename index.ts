@@ -35,8 +35,8 @@ export default function greedySearchExtension(pi: ExtensionAPI) {
 	// ─── greedy_search ────────────────────────────────────────────────────────
 	registerGreedySearchTool(pi, __dir);
 
-	// ─── deep_research ────────────────────────────────────────────────────────
-	registerDeepResearchTool(pi, __dir);
+	// ─── deep_research (disabled) ─────────────────────────────────────────────
+	// registerDeepResearchTool(pi, __dir);
 
 	// ─── coding_task ───────────────────────────────────────────────────────────
 	pi.registerTool({
