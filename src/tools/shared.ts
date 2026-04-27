@@ -109,7 +109,7 @@ export function makeProgressTracker(
 	suffix: "Searching" | "Researching",
 	query?: string,
 ) {
-	const completed = new Set<string>();
+	const completed = new Map<string, "done" | "error">();
 
 	// Emit initial progress update
 	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
@@ -120,12 +120,20 @@ export function makeProgressTracker(
 		details: { _progress: true },
 	} satisfies ProgressUpdate);
 
-	return (eng: string, _status: "done" | "error") => {
-		completed.add(eng);
+	return (eng: string, status: "done" | "error") => {
+		// Store the status for this specific engine
+		completed.set(eng, status);
+		
 		const parts: string[] = [];
 		for (const e of engines) {
-			if (completed.has(e)) parts.push(`✅ ${e} done`);
-			else parts.push(`⏳ ${e}`);
+			if (completed.has(e)) {
+				// Retrieve the saved status for engine 'e'
+				const eStatus = completed.get(e)!;
+				const icon = eStatus === "error" ? "❌" : "✅";
+				parts.push(`${icon} ${e} ${eStatus}`);
+			} else {
+				parts.push(`⏳ ${e}`);
+			}
 		}
 
 		onUpdate?.({
