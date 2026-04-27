@@ -96,7 +96,7 @@ async function main() {
 
 	// Depth modes: fast (no synthesis/fetch), standard (synthesis+fetch 5 sources)
 	const depthIdx = args.indexOf("--depth");
-	let depth = "standard"; // DEFAULT: synthesis + source fetch
+	let depth = "fast"; // DEFAULT: fast (no synthesis)
 
 	if (depthIdx !== -1 && args[depthIdx + 1]) {
 		depth = args[depthIdx + 1];
