@@ -25,12 +25,12 @@ export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
 			),
 			depth: Type.Union(
 				[Type.Literal("fast"), Type.Literal("standard"), Type.Literal("deep")],
-				{ description: "Search depth: fast (single engine, ~15-30s), standard (3 engines + synthesis, ~30-90s), deep (3 engines + source fetching + synthesis + confidence, ~60-180s). Default: standard.", default: "standard" },
+				{ description: "Search depth: fast (single engine, ~15-30s), standard (3 engines + synthesis, ~30-90s), deep (3 engines + source fetching + synthesis + confidence, ~60-180s). Default: fast.", default: "fast" },
 			),
 			fullAnswer: Type.Optional(Type.Boolean({ description: "When true, returns the complete answer instead of a truncated preview (default: false, answers are shortened to ~300 chars to save tokens).", default: false })),
 		}),
 		execute: async (_toolCallId, params, signal, onUpdate) => {
-			const { query, engine = "all", depth = "standard", fullAnswer: fullAnswerParam } = params as {
+			const { query, engine = "all", depth = "fast", fullAnswer: fullAnswerParam } = params as {
 				query: string; engine: string; depth?: "fast" | "standard" | "deep"; fullAnswer?: boolean;
 			};
 
