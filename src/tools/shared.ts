@@ -107,7 +107,6 @@ export function makeProgressTracker(
 	engines: readonly string[],
 	onUpdate: ((update: ProgressUpdate) => void) | undefined,
 	suffix: "Searching" | "Researching",
-	depth: string,
 	query?: string,
 ) {
 	const completed = new Set<string>();
@@ -116,7 +115,7 @@ export function makeProgressTracker(
 	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
 	onUpdate?.({
 		content: [
-			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${engines.map((e) => "⏳ " + e).join(" · ")} · ${depth}` },
+			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${engines.map((e) => "⏳ " + e).join(" · ")}` },
 		],
 		details: { _progress: true },
 	} satisfies ProgressUpdate);
@@ -128,12 +127,10 @@ export function makeProgressTracker(
 			if (completed.has(e)) parts.push(`✅ ${e} done`);
 			else parts.push(`⏳ ${e}`);
 		}
-		if (depth !== "fast" && completed.size >= 3)
-			parts.push("🔄 synthesizing");
 
 		onUpdate?.({
 			content: [
-				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${parts.join(" · ")} · ${depth}` },
+				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${parts.join(" · ")}` },
 			],
 			details: { _progress: true },
 		} satisfies ProgressUpdate);

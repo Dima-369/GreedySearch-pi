@@ -1,8 +1,10 @@
 # Fork changes
 
-- `depth` is now `fast` by default (faster, no synthesis)
-- removed Gemini from engine options (Perplexity, Bing, Google only), so the `all` engine does not query Gemini
-- disabled legacy `deep_research` tool (use `greedy_search` with `depth: "deep"` instead)
+- **depth parameter removed** — always uses `fast` mode (no synthesis)
+- **engine hidden** — always uses `all` (Perplexity, Bing, Google)
+- **fullAnswer hidden** — always returns full output
+- removed Gemini from engine options (Perplexity, Bing, Google only)
+- disabled legacy `deep_research` tool
 
 Note that I did not adjust the README below.
 

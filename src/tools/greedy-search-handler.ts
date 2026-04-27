@@ -19,32 +19,25 @@ export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
 		promptSnippet: "Multi-engine AI web search with streaming progress",
 		parameters: Type.Object({
 			query: Type.String({ description: "The search query" }),
-			engine: Type.Union(
-				[Type.Literal("all"), Type.Literal("perplexity"), Type.Literal("bing"), Type.Literal("google")],
-				{ description: 'Engine to use. "all" fans out to Perplexity, Bing, and Google in parallel (default).', default: "all" },
-			),
-			depth: Type.Union(
-				[Type.Literal("fast"), Type.Literal("standard"), Type.Literal("deep")],
-				{ description: "Search depth: fast (single engine, ~15-30s), standard (3 engines + synthesis, ~30-90s), deep (3 engines + source fetching + synthesis + confidence, ~60-180s). Default: fast.", default: "fast" },
-			),
-			fullAnswer: Type.Optional(Type.Boolean({ description: "When true, returns the complete answer instead of a truncated preview (default: false, answers are shortened to ~300 chars to save tokens).", default: false })),
+			// engine: Type.Union(
+			// 		[Type.Literal("all"), Type.Literal("perplexity"), Type.Literal("bing"), Type.Literal("google")],
+			// 		{ description: 'Engine to use. "all" fans out to Perplexity, Bing, and Google in parallel (default).', default: "all" },
+			// ),
+			// depth: Type.Union(
+			// 		[Type.Literal("fast"), Type.Literal("standard"), Type.Literal("deep")],
+			// 		{ description: "Search depth: fast (single engine, ~15-30s), standard (3 engines + synthesis, ~30-90s), deep (3 engines + source fetching + synthesis + confidence, ~60-180s). Default: fast.", default: "fast" },
+			// ),
+			// fullAnswer: Type.Optional(Type.Boolean({ description: "When true, returns the complete answer instead of a truncated preview (default: false, answers are shortened to ~300 chars to save tokens).", default: false })),
 		}),
 		execute: async (_toolCallId, params, signal, onUpdate) => {
-			const { query, engine = "all", depth = "fast", fullAnswer: fullAnswerParam } = params as {
-				query: string; engine: string; depth?: "fast" | "standard" | "deep"; fullAnswer?: boolean;
-			};
+			const { query } = params as { query: string };
 
 			if (!cdpAvailable(baseDir)) return cdpMissingResult();
 
-			const flags: string[] = [];
-			const fullAnswer = fullAnswerParam ?? (engine !== "all");
-			if (fullAnswer) flags.push("--full");
-			if (depth === "deep") flags.push("--depth", "deep");
-			else if (depth === "standard" && engine === "all") flags.push("--synthesize");
+			const engine = "all";
+			const flags: string[] = ["--full"]; // always return full output
 
-			const onProgress = engine === "all"
-				? makeProgressTracker(ALL_ENGINES, onUpdate, "Searching", depth, query)
-				: undefined;
+			const onProgress = makeProgressTracker(ALL_ENGINES, onUpdate, "Searching", query);
 
 			try {
 				const data = await runSearch(engine, query, flags, `${baseDir}/bin/search.mjs`, signal, onProgress);
