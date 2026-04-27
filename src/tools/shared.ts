@@ -114,10 +114,9 @@ export function makeProgressTracker(
 
 	// Emit initial progress update
 	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
-	const engineStr = engines.join(",");
 	onUpdate?.({
 		content: [
-			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${engines.map((e) => "⏳ " + e).join(" · ")} · ${engineStr} · ${depth}` },
+			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${engines.map((e) => "⏳ " + e).join(" · ")} · ${depth}` },
 		],
 		details: { _progress: true },
 	} satisfies ProgressUpdate);
@@ -134,7 +133,7 @@ export function makeProgressTracker(
 
 		onUpdate?.({
 			content: [
-				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${parts.join(" · ")} · ${engineStr} · ${depth}` },
+				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${parts.join(" · ")} · ${depth}` },
 			],
 			details: { _progress: true },
 		} satisfies ProgressUpdate);
