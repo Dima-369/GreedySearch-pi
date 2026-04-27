@@ -114,9 +114,11 @@ export function makeProgressTracker(
 
 	// Emit initial progress update
 	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
+	const engineStr = engines.join(",");
 	onUpdate?.({
 		content: [
 			{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${engines.map((e) => "⏳ " + e).join(" · ")}` },
+			{ type: "text", text: `${engineStr} · ${depth}` },
 		],
 		details: { _progress: true },
 	} satisfies ProgressUpdate);
@@ -134,6 +136,7 @@ export function makeProgressTracker(
 		onUpdate?.({
 			content: [
 				{ type: "text", text: `**${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."}** ${parts.join(" · ")}` },
+				{ type: "text", text: `${engineStr} · ${depth}` },
 			],
 			details: { _progress: true },
 		} satisfies ProgressUpdate);
