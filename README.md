@@ -5,6 +5,7 @@
 - **fullAnswer hidden** — always returns full output
 - removed Gemini from engine options (Perplexity, Bing, Google only)
 - disabled legacy `deep_research` tool
+- show error in `onUpdate` when a provider fails
 
 Note that I did not adjust the README below.
 
