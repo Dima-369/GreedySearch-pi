@@ -114,7 +114,7 @@ async function main() {
 	if (args.includes("--deep-research")) {
 		depth = "standard";
 		process.stderr.write(
-			"[greedysearch] --deep-research is deprecated; use --depth standard (now default)\n",
+			"[greedysearch] --deep-research is deprecated; use greedy_search with depth: 'standard' instead\n",
 		);
 	}
 	if (args.includes("--deep")) {
