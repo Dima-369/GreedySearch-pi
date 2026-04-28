@@ -5,6 +5,7 @@
 - **fullAnswer hidden** — always returns full output
 - removed Gemini from engine options (Perplexity, Bing, Google only)
 - disabled legacy `deep_research` tool
+- disabled `coding_task` tool
 - show error in `onUpdate` when a provider fails
 
 Note that I did not adjust the README below.
@@ -34,7 +35,6 @@ pi install git:github.com/apmantza/GreedySearch-pi
 ## Tools
 
 - `greedy_search` - fast or grounded multi-engine search
-- `coding_task` - browser-routed Gemini/Copilot coding assistance
 
 ## Quick usage
 

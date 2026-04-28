@@ -38,8 +38,8 @@ export default function greedySearchExtension(pi: ExtensionAPI) {
 	// ─── deep_research (disabled) ─────────────────────────────────────────────
 	// registerDeepResearchTool(pi, __dir);
 
-	// ─── coding_task ───────────────────────────────────────────────────────────
-	pi.registerTool({
+	// ─── coding_task (disabled) ────────────────────────────────────────────────
+	/* pi.registerTool({
 		name: "coding_task",
 		label: "Coding Task",
 		description:
@@ -183,7 +183,7 @@ export default function greedySearchExtension(pi: ExtensionAPI) {
 				};
 			}
 		},
-	});
+	}); */
 
 	// ─── /set-greedy-locale command ───────────────────────────────────────────
 	pi.registerCommand("set-greedy-locale", {
