@@ -1,5 +1,6 @@
 # Fork changes
 
+- **tool renamed to `ai_search`** — formerly `greedy_search`
 - **depth parameter removed** — always uses `fast` mode (no synthesis)
 - **engine hidden** — always uses `all` (Perplexity, Bing, Google)
 - **fullAnswer hidden** — always returns full output
@@ -12,7 +13,7 @@ Note that I did not adjust the README below.
 
 # Original README
 
-# GreedySearch for Pi
+# AI Search for Pi
 
 Multi-engine AI web search for Pi via browser automation.
 

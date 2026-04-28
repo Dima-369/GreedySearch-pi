@@ -17,7 +17,7 @@ import { Type } from "@sinclair/typebox";
 import { formatCodingTask } from "./src/formatters/coding.js";
 import { DEFAULTS } from "./src/search/defaults.mjs";
 import { registerDeepResearchTool } from "./src/tools/deep-research-handler.js";
-import { registerGreedySearchTool } from "./src/tools/greedy-search-handler.js";
+import { registerAiSearchTool } from "./src/tools/greedy-search-handler.js";
 import { cdpAvailable, type ProgressUpdate } from "./src/tools/shared.js";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
@@ -26,14 +26,14 @@ export default function greedySearchExtension(pi: ExtensionAPI) {
 	pi.on("session_start", async (_event, ctx) => {
 		if (!cdpAvailable(__dir)) {
 			ctx.ui.notify(
-				"GreedySearch: cdp.mjs missing from package directory — try reinstalling: pi install git:github.com/apmantza/GreedySearch-pi",
+				"ai_search: cdp.mjs missing from package directory — try reinstalling: pi install git:github.com/apmantza/GreedySearch-pi",
 				"warning",
 			);
 		}
 	});
 
-	// ─── greedy_search ────────────────────────────────────────────────────────
-	registerGreedySearchTool(pi, __dir);
+	// ─── ai_search ────────────────────────────────────────────────────────
+	registerAiSearchTool(pi, __dir);
 
 	// ─── deep_research (disabled) ─────────────────────────────────────────────
 	// registerDeepResearchTool(pi, __dir);

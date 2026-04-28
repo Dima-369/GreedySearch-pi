@@ -7,16 +7,14 @@ import { Type } from "@sinclair/typebox";
 import { formatResults } from "../formatters/results.js";
 import { ALL_ENGINES, cdpAvailable, cdpMissingResult, errorResult, makeProgressTracker, runSearch } from "./shared.js";
 
-export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
+export function registerAiSearchTool(pi: ExtensionAPI, baseDir: string) {
 	pi.registerTool({
-		name: "greedy_search",
-		label: "Greedy Search",
+		name: "ai_search",
+		label: "AI Search",
 		description:
-			"WEB SEARCH ONLY — searches live web via Perplexity, Bing Copilot, and Google AI in parallel. " +
-			"Optionally synthesizes results with Gemini, deduplicates sources by consensus. " +
-			"Use for: library docs, recent framework changes, error messages, best practices, current events. " +
-			"Reports streaming progress as each engine completes.",
-		promptSnippet: "Multi-engine AI web search with streaming progress",
+			"Multi-engine web search via Perplexity, Bing Copilot, and Google AI in parallel. " +
+			"Use for: library docs, recent framework changes, error messages, best practices, current events.",
+		promptSnippet: "Multi-engine web search (Perplexity, Bing, Google AI)",
 		parameters: Type.Object({
 			query: Type.String({ description: "The search query" }),
 			// engine: Type.Union(
