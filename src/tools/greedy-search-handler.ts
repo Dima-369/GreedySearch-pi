@@ -37,7 +37,7 @@ export function registerGreedySearchTool(pi: ExtensionAPI, baseDir: string) {
 			const engine = "all";
 			const flags: string[] = ["--full"]; // always return full output
 
-			const onProgress = makeProgressTracker(ALL_ENGINES, onUpdate, "Searching", query);
+			const onProgress = makeProgressTracker(ALL_ENGINES, onUpdate, query);
 
 			try {
 				const data = await runSearch(engine, query, flags, `${baseDir}/bin/search.mjs`, signal, onProgress);

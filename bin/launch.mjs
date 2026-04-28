@@ -26,13 +26,15 @@ import {
 	writeFileSync,
 } from "node:fs";
 import http from "node:http";
-import { platform, tmpdir } from "node:os";
+import { homedir, platform } from "node:os";
 import { join } from "node:path";
 
 const PORT = 9222;
-const PROFILE_DIR = join(tmpdir(), "greedysearch-chrome-profile");
+// Use homedir() for a stable path — os.tmpdir() returns different values on
+// macOS depending on whether $TMPDIR is set (/tmp vs /var/folders/...).
+const PROFILE_DIR = join(homedir(), ".greedysearch", "chrome-profile");
 const ACTIVE_PORT = join(PROFILE_DIR, "DevToolsActivePort");
-const PID_FILE = join(tmpdir(), "greedysearch-chrome.pid");
+const PID_FILE = join(homedir(), ".greedysearch", "chrome.pid");
 
 function findChrome() {
 	const os = platform();

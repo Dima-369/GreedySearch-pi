@@ -1,11 +1,18 @@
 // src/search/constants.mjs — Shared constants for GreedySearch search pipeline
 
-import { tmpdir } from "node:os";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+// Use homedir() instead of tmpdir() — on macOS, os.tmpdir() returns different
+// paths depending on whether $TMPDIR is set (/tmp vs /var/folders/...), which
+// causes a mismatch between Chrome launch context and the pi agent process.
+// homedir() is always stable across all invocation contexts.
+const _home = homedir();
 
 export const GREEDY_PORT = 9222;
-export const GREEDY_PROFILE_DIR = `${tmpdir().replace(/\\/g, "/")}/greedysearch-chrome-profile`;
-export const ACTIVE_PORT_FILE = `${GREEDY_PROFILE_DIR}/DevToolsActivePort`;
-export const PAGES_CACHE = `${tmpdir().replace(/\\/g, "/")}/cdp-pages.json`;
+export const GREEDY_PROFILE_DIR = join(_home, ".greedysearch", "chrome-profile");
+export const ACTIVE_PORT_FILE = join(GREEDY_PROFILE_DIR, "DevToolsActivePort");
+export const PAGES_CACHE = join(_home, ".greedysearch", "cdp-pages.json");
 
 export const ALL_ENGINES = ["perplexity", "bing", "google"];
 

@@ -9,9 +9,7 @@ import type { ProgressUpdate, ToolResult } from "../types.js";
 
 export type { ProgressUpdate, ToolResult } from "../types.js";
 
-// Canonical source is src/search/constants.mjs — keep in sync
-const ALL_ENGINES = ["perplexity", "bing", "google"] as const;
-export { ALL_ENGINES };
+export { ALL_ENGINES } from "../search/constants.mjs";
 
 /**
  * Check if the CDP module is available in the package directory
@@ -73,9 +71,13 @@ export function runSearch(
 		};
 		signal?.addEventListener("abort", onAbort, { once: true });
 
+		let stderrBuffer = "";
 		proc.stderr.on("data", (d: Buffer) => {
 			err += d;
-			for (const line of d.toString().split("\n")) {
+			stderrBuffer += d.toString();
+			const lines = stderrBuffer.split("\n");
+			stderrBuffer = lines.pop() ?? "";
+			for (const line of lines) {
 				const match = line.match(/^PROGRESS:(\w+):(done|error)$/);
 				if (match && onProgress) {
 					onProgress(match[1], match[2] as "done" | "error");
@@ -106,16 +108,19 @@ export function runSearch(
 export function makeProgressTracker(
 	engines: readonly string[],
 	onUpdate: ((update: ProgressUpdate) => void) | undefined,
-	suffix: "Searching" | "Researching",
 	query?: string,
 ) {
 	const completed = new Map<string, "done" | "error">();
 
+	const buildText = (parts: string[]) => {
+		const engineLine = parts.join(" · ");
+		return query ? `${query}\n${engineLine}` : engineLine;
+	};
+
 	// Emit initial progress update
-	const truncatedQuery = query && query.length > 40 ? query.slice(0, 37) + "..." : query;
 	onUpdate?.({
 		content: [
-			{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${engines.map((e) => "⏳ " + e).join(" · ")}` },
+			{ type: "text", text: buildText(engines.map((e) => "⏳ " + e)) },
 		],
 		details: { _progress: true },
 	} satisfies ProgressUpdate);
@@ -127,7 +132,6 @@ export function makeProgressTracker(
 		const parts: string[] = [];
 		for (const e of engines) {
 			if (completed.has(e)) {
-				// Retrieve the saved status for engine 'e'
 				const eStatus = completed.get(e)!;
 				const icon = eStatus === "error" ? "❌" : "✅";
 				parts.push(`${icon} ${e} ${eStatus}`);
@@ -138,7 +142,7 @@ export function makeProgressTracker(
 
 		onUpdate?.({
 			content: [
-				{ type: "text", text: `${truncatedQuery ? suffix + ' "' + truncatedQuery + '"' : suffix + "..."} · ${parts.join(" · ")}` },
+				{ type: "text", text: buildText(parts) },
 			],
 			details: { _progress: true },
 		} satisfies ProgressUpdate);
