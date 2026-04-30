@@ -2,9 +2,9 @@
 
 - **tool renamed to `ai_search`** — formerly `greedy_search`
 - **depth parameter removed** — always uses `fast` mode (no synthesis)
-- **engine hidden** — always uses `all` (Perplexity, Bing, Google)
+- **engine hidden** — always uses `all` (Perplexity, Google AI, Gemini; Bing commented out)
 - **fullAnswer hidden** — always returns full output
-- removed Gemini from engine options (Perplexity, Bing, Google only)
+- default engines changed to Perplexity, and Google AI, Gemini/Bing commented out
 - disabled legacy `deep_research` tool
 - disabled `coding_task` tool
 - show error in `onUpdate` when a provider fails
@@ -18,7 +18,7 @@ Note that I did not adjust the README below.
 Multi-engine AI web search for Pi via browser automation.
 
 - No API keys
-- Real browser results (Perplexity, Bing Copilot, Google AI)
+- Real browser results (Perplexity, Google AI, Gemini/Bing commented out)
 - Optional Gemini synthesis with source grounding
 
 ## Install

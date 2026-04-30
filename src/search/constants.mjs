@@ -14,7 +14,7 @@ export const GREEDY_PROFILE_DIR = join(_home, ".greedysearch", "chrome-profile")
 export const ACTIVE_PORT_FILE = join(GREEDY_PROFILE_DIR, "DevToolsActivePort");
 export const PAGES_CACHE = join(_home, ".greedysearch", "cdp-pages.json");
 
-export const ALL_ENGINES = ["perplexity", "bing", "google"];
+export const ALL_ENGINES = ["perplexity", /* "bing", */ "google", /* "gemini" */];
 
 export const ENGINE_DOMAINS = {
 	perplexity: "perplexity.ai",
